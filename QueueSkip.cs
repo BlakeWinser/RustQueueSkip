@@ -28,5 +28,30 @@ namespace Oxide.Plugins
 
             return null; // Proceed with the default queue behavior for non-VIP players
         }
+
+        // Hook called when player disconnects
+        private void OnPlayerDisconnected(BasePlayer player, string reason)
+        {
+            // Log the disconnection event
+            Puts($"Player {player.displayName} has disconnected. Reason: {reason}");
+        }
+
+        // Hook called when player connects
+        private void OnPlayerConnected(BasePlayer player)
+        {
+            // Log the connection event
+            Puts($"Player {player.displayName} has connected.");
+
+            // Check if the player is a VIP and notify them
+            if (permission.UserHasPermission(player.UserIDString, QueueSkipPermission))
+            {
+                PrintToChat(player, "Welcome back, VIP! You can skip the queue.");
+                Puts($"VIP Player {player.displayName} has connected.");
+            }
+            else
+            {
+                PrintToChat(player, "Welcome to the server! Enjoy your stay.");
+            }
+        }
     }
 }
