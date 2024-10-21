@@ -22,7 +22,7 @@ namespace Oxide.Plugins
 
             if (permission.UserHasPermission(userId, QueueSkipPermission))
             {
-                Puts($"VIP Player {connection.username} is skipping the queue.");
+                Puts($"{connection.username} has VIP, skipping the queue.");
                 return true; // Allow VIP player to skip the queue
             }
 
@@ -39,18 +39,20 @@ namespace Oxide.Plugins
         // Hook called when player connects
         private void OnPlayerConnected(BasePlayer player)
         {
-            // Log the connection event
-            Puts($"Player {player.displayName} has connected.");
-
             // Check if the player is a VIP and notify them
             if (permission.UserHasPermission(player.UserIDString, QueueSkipPermission))
             {
-                PrintToChat(player, "Welcome back, VIP! You can skip the queue.");
+                PrintToChat(player, $"Welcome back, {player.displayName}!");
+
+                // Log VIP player connecting
                 Puts($"VIP Player {player.displayName} has connected.");
             }
             else
             {
                 PrintToChat(player, "Welcome to the server! Enjoy your stay.");
+
+                // Log standard player connecting
+                Puts($"Player {player.displayName} has connected.");
             }
         }
     }
